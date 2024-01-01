@@ -72,22 +72,22 @@ from sklearn.metrics import silhouette_score
 ## Data Discovery
 
 ### penjelasan variabel pada Bike Sharing dataset :
-instant: Record Index                                                       (int64)
-dteday : Tanggal                                                            (object)
-season : Musim                                                              (int64)
-yr : Tahun                                                                  (int64)
-mnth : Bulan                                                                (int64)
-holiday : Hari libur                                                        (int64)    
-weekday : Hari pada 1 minggu                                                (int64)  
-workingday : Hari kerja                                                     (int64)
-weathersit : Cuaca                                                          (int64)
-temp : Suhu normal dalam Celcius.                                           (float64)
-atemp: Suhu perasaan dinormalisasi dalam Celsius.                           (float64)      
-hum: Kelembaban yang dinormalisasi.                                         (float64)
-windspeed: Kecepatan angin dinormalisasi.                                   (float64)
-casual: jumlah pengguna biasa                                               (int64)
-registered: jumlah pengguna terdaftar                                       (int64)                            
-cnt: hitungan total sepeda sewaan termasuk sepeda kasual dan terdaftar      (int64)  
+-instant: Record Index                                                       (int64)
+-dteday : Tanggal                                                            (object)
+-season : Musim                                                              (int64)
+-yr : Tahun                                                                  (int64)
+-mnth : Bulan                                                                (int64)
+-holiday : Hari libur                                                        (int64)    
+-weekday : Hari pada 1 minggu                                                (int64)  
+-workingday : Hari kerja                                                     (int64)
+-weathersit : Cuaca                                                          (int64)
+-temp : Suhu normal dalam Celcius.                                           (float64)
+-atemp: Suhu perasaan dinormalisasi dalam Celsius.                           (float64)      
+-hum: Kelembaban yang dinormalisasi.                                         (float64)
+-windspeed: Kecepatan angin dinormalisasi.                                   (float64)
+-casual: jumlah pengguna biasa                                               (int64)
+-registered: jumlah pengguna terdaftar                                       (int64)                            
+-cnt: hitungan total sepeda sewaan termasuk sepeda kasual dan terdaftar      (int64)  
 
 
 Merubah nama pemanggilan data menjadi df agar mudah untuk di panggil
