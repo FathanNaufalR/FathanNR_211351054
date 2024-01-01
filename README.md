@@ -68,3 +68,55 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
 from sklearn.metrics import silhouette_score
 ```
+
+## Data Discovery
+
+### penjelasan variabel pada Bike Sharing dataset :
+instant: Record Index                                                       (int64)
+dteday : Tanggal                                                            (object)
+season : Musim                                                              (int64)
+yr : Tahun                                                                  (int64)
+mnth : Bulan                                                                (int64)
+holiday : Hari libur                                                        (int64)    
+weekday : Hari pada 1 minggu                                                (int64)  
+workingday : Hari kerja                                                     (int64)
+weathersit : Cuaca                                                          (int64)
+temp : Suhu normal dalam Celcius.                                           (float64)
+atemp: Suhu perasaan dinormalisasi dalam Celsius.                           (float64)      
+hum: Kelembaban yang dinormalisasi.                                         (float64)
+windspeed: Kecepatan angin dinormalisasi.                                   (float64)
+casual: jumlah pengguna biasa                                               (int64)
+registered: jumlah pengguna terdaftar                                       (int64)                            
+cnt: hitungan total sepeda sewaan termasuk sepeda kasual dan terdaftar      (int64)  
+
+
+Merubah nama pemanggilan data menjadi df agar mudah untuk di panggil
+```python
+df = pd.read_csv('/content/bike-sharing-dataset/day.csv')
+```
+
+Memunculkan data pada dataset dengan default 5 baris
+```python
+df.head()
+```
+
+Mengetahui deskripsi pada data seperti tipedata
+```python
+df.info()
+```
+
+Melihat ada berapa jumlah baris dan kolom
+```python
+df.shape
+```
+
+Memeriksa apakah ada nilai null pada dataset
+```python
+df.isna().sum()
+```
+
+Memeriksa apakah ada data yang duplikat pada dataset
+```python
+df.duplicated().sum()
+```
+
