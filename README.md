@@ -87,7 +87,7 @@ from sklearn.metrics import silhouette_score
 - windspeed: Kecepatan angin dinormalisasi. (float64)
 - casual: jumlah pengguna biasa (int64)
 - registered: jumlah pengguna terdaftar (int64)                            
-- cnt: hitungan total sepeda sewaan termasuk sepeda kasual dan terdaftar(int64)  
+- cnt: hitungan total sepeda sewaan termasuk sepeda kasual dan terdaftar (int64)  
 
 
 Merubah nama pemanggilan data menjadi df agar mudah untuk di panggil
@@ -120,3 +120,13 @@ Memeriksa apakah ada data yang duplikat pada dataset
 df.duplicated().sum()
 ```
 
+Merubah nilai numerik pada dataset menggunakan Map() , untuk mempermudah memahami plot pada analisis kita.
+```python
+df['season']=df.season.map({1: 'spring', 2: 'summer',3:'fall', 4:'winter'})
+df['mnth']=df.mnth.map({1:'Jan',2:'Feb',3:'Mar',4:'Apr',5:'May',6:'June',7:'July',8:'Aug',9:'Sep',10:'Oct',11:'Nov',12:'Dec'})
+df['weathersit']=df.weathersit.map({1: 'Clear',2:'Mist + Cloudy',3:'Light Snow'})
+df['weekday']=df.weekday.map({0:'Sun',1:'Mon',2:'Tue',3:'Wed',4:'Thu',5:'Fri',6:'Sat'})
+df.head()
+```
+
+## EDA
