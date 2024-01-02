@@ -131,6 +131,7 @@ df.head()
 
 ## EDA
 
+
 Mengecek korelasi antar variabel
 ```python
 plt.figure(figsize=(20, 12))
@@ -139,6 +140,7 @@ plt.title("Korelasi antar variabel")
 plt.show()
 ```
 ![image](https://github.com/FathanNaufalR/FathanNR_211351054/assets/149129682/c4041355-10f2-4685-9a26-52fc06676b7b)
+
 
 
 Histogram
@@ -157,3 +159,175 @@ plt.tight_layout()
 plt.show()
 ```
 ![image](https://github.com/FathanNaufalR/FathanNR_211351054/assets/149129682/49c04c50-7e57-48b0-af4f-0035521f7841)
+
+
+
+Memahami data menggunakan boxplot
+```python
+plt.figure(figsize=(22, 10))
+
+plt.subplot(2,3,1)
+sns.boxplot(x = 'yr', y = 'cnt', data = df,palette="icefire")
+
+plt.subplot(2,3,2)
+sns.boxplot(x = 'holiday', y = 'cnt', data = df,palette="vlag")
+
+plt.subplot(2,3,3)
+sns.boxplot(x = 'workingday', y = 'cnt', data = df,palette="Spectral")
+
+plt.subplot(2,3,4)
+sns.boxplot(x = 'mnth', y = 'cnt', data = df,palette="coolwarm")
+
+
+plt.subplot(2,3,5)
+sns.boxplot(x = 'weekday', y = 'cnt', data = df,palette="rocket")
+
+plt.show()
+```
+![image](https://github.com/FathanNaufalR/FathanNR_211351054/assets/149129682/ab45f867-3684-4809-a309-1d4f6ee10289)
+
+
+
+Memeriksa outlier pada data
+```python
+sns.boxplot(df)
+fig=plt.gcf()
+fig.set_size_inches(15,10)
+```
+![image](https://github.com/FathanNaufalR/FathanNR_211351054/assets/149129682/8b46c949-c1ae-46ea-a196-af825d320a10)
+
+
+
+Melihat data sepeda yang di sewa berdasarkan musim menggunakan barplot
+```python
+su=df.loc[df['season'] == 'summer', 'cnt'].sum()
+sp=df.loc[df['season'] == 'spring', 'cnt'].sum()
+fa=df.loc[df['season'] == 'fall', 'cnt'].sum()
+wi=df.loc[df['season'] == 'winter', 'cnt'].sum()
+
+data = {
+  "season": ['summer', 'spring', 'fall', 'winter'],
+  "cnt": [su, sp, fa,wi]
+}
+
+df0 = pd.DataFrame(data)
+```
+```python
+plt.bar(x='season',height='cnt',data=df0,color='darkblue')
+plt.show()
+print(df0)
+```
+![image](https://github.com/FathanNaufalR/FathanNR_211351054/assets/149129682/649b4813-9c7c-4ff0-b224-0d563f726d72)
+
+
+## Data Preprocessing
+
+Karena dilihat dari boxplotnya kolom casual memiliki outlier yang banyak, maka akan dilakukan drop data
+```python
+Q1 = (df['casual']).quantile(0.25)
+Q3 = (df['casual']).quantile(0.75)
+IQR = Q3 - Q1
+
+maximum = Q3 + (1.5*IQR)
+minimum = Q1 - (1.5*IQR)
+
+kondisi_lower_than = df['casual'] < minimum
+kondisi_more_than = df['casual'] > maximum
+
+df.drop(df[kondisi_lower_than].index, inplace=True)
+df.drop(df[kondisi_more_than].index, inplace=True)
+```
+
+karena saya akan mengcluster kolom casual, dan registered saja maka akan dilakukan drop data
+```python
+df2 = df.drop(['dteday','season','yr','instant','mnth','holiday','weekday', 'workingday','weathersit','temp','atemp','hum','windspeed'], axis=1)
+df2.head()
+```
+
+## Modeling
+
+
+Melakukan clustering pada Kolom Registered dan Casual, dengan menggunakan K-Means
+```python
+x1 = df["registered"]
+x2 = df["casual"]
+X = np.array(list(zip(x1, x2))).reshape(len(x1), 2)
+
+# Visualizing the data
+plt.plot()
+plt.xlim([-500, 9000])
+plt.ylim([-500, 4000])
+plt.title('Dataset Registered dan Casual')
+plt.scatter(x1, x2)
+plt.show()
+```
+![image](https://github.com/FathanNaufalR/FathanNR_211351054/assets/149129682/7591716f-8fd6-44fa-bf59-0bb62d5e8c3a)
+
+
+#lalu saya melakukan elbow
+```python
+distortions = []
+inertias = []
+mapping1 = {}
+mapping2 = {}
+K = range(1, 10)
+
+for k in K:
+    #Building and fitting the model
+    kmeanModel = KMeans(n_clusters=k).fit(X)
+    kmeanModel.fit(X)
+
+    distortions.append(sum(np.min(cdist(X, kmeanModel.cluster_centers_,
+                                        'euclidean'), axis=1)) / X.shape[0])
+    inertias.append(kmeanModel.inertia_)
+
+    mapping1[k] = sum(np.min(cdist(X, kmeanModel.cluster_centers_,
+                                   'euclidean'), axis=1)) / X.shape[0]
+    mapping2[k] = kmeanModel.inertia_
+```
+```python
+for key, val in mapping1.items():
+    print(f'{key} : {val}')
+```
+```python
+plt.plot(K, distortions, 'bx-')
+plt.xlabel('Values of K')
+plt.ylabel('Distortion')
+plt.title('The Elbow Method using Distortion')
+plt.show()
+```
+![image](https://github.com/FathanNaufalR/FathanNR_211351054/assets/149129682/c093e2a1-5845-4ba6-962c-77f4f11d292c)
+
+Dari elbow method , ditemukan bahwa jumlah kluster yang dapat di gunakan adalah 3. Tapi dikarnakan elbow method terkadang ambigu , supaya yakin maka perlu kita lakukan silhouette method
+
+
+```python
+# Standarisasi (Opsional tapi terkadang di sarankan)
+scaler = StandardScaler()
+df_scaled = scaler.fit_transform(df2)
+
+# Mengurangi dimensi tinggi dengan Principal Component Analysis (PCA) (Opsional tapi terkadang dapat membantu)
+pca = PCA(n_components=2)
+df_pca = pca.fit_transform(df_scaled)
+
+# Untuk set jumlah cluster
+cluster_range = range(2, 11)
+
+# untuk menyimpan skor kluster pada setiap jumlah kluster
+silhouette_scores = []
+
+for n_clusters in cluster_range:
+    # untuk Fit model K-means clustering
+    kmeans = KMeans(n_clusters=n_clusters, random_state=42)
+    cluster_labels = kmeans.fit_predict(df_pca)  # Untuk mengurangi dimensi tinggi data kita
+
+    # Kalkulasi skor silhouette
+    silhouette_avg = silhouette_score(df_pca, cluster_labels)
+    silhouette_scores.append(silhouette_avg)
+
+plt.plot(cluster_range, silhouette_scores, marker='o')
+plt.title('Silhouette Method for Optimal K')
+plt.xlabel('Number of Clusters (K)')
+plt.ylabel('Silhouette Score')
+plt.show()
+```
