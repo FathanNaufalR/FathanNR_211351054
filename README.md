@@ -264,7 +264,7 @@ plt.show()
 ![image](https://github.com/FathanNaufalR/FathanNR_211351054/assets/149129682/7591716f-8fd6-44fa-bf59-0bb62d5e8c3a)
 
 
-#lalu saya melakukan elbow
+lalu saya melakukan elbow
 ```python
 distortions = []
 inertias = []
