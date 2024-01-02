@@ -380,3 +380,7 @@ with open('kmeans_model.pkl', 'wb') as file:
 with open('kmeans_model.pkl', 'rb') as file:
     loaded_kmeans = pickle.load(file)
 ```
+## Deployment
+https://fathannr211351054-yccgeueffchtsdd5mckopp.streamlit.app/
+
+![image](https://github.com/FathanNaufalR/FathanNR_211351054/assets/149129682/f5e7d004-43da-46c8-8684-02c03f7b660f)
