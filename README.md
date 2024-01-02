@@ -130,3 +130,30 @@ df.head()
 ```
 
 ## EDA
+
+Mengecek korelasi antar variabel
+```python
+plt.figure(figsize=(20, 12))
+sns.heatmap(df.corr(), annot = True)
+plt.title("Korelasi antar variabel")
+plt.show()
+```
+![image](https://github.com/FathanNaufalR/FathanNR_211351054/assets/149129682/c4041355-10f2-4685-9a26-52fc06676b7b)
+
+
+Histogram
+```python
+columns = ['casual', 'registered', 'cnt']
+
+fig, ax = plt.subplots(1, 3, figsize=(10,5))
+
+for i, ax in enumerate(ax):
+    sns.histplot(x=df[columns[i]], ax=ax, bins=10, color='red')
+    ax.set_title(columns[i])
+    ax.set_xlabel("")
+    ax.set_ylabel("")
+
+plt.tight_layout()
+plt.show()
+```
+![image](https://github.com/FathanNaufalR/FathanNR_211351054/assets/149129682/49c04c50-7e57-48b0-af4f-0035521f7841)
