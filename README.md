@@ -298,9 +298,10 @@ plt.show()
 ```
 ![image](https://github.com/FathanNaufalR/FathanNR_211351054/assets/149129682/c093e2a1-5845-4ba6-962c-77f4f11d292c)
 
-Dari elbow method , ditemukan bahwa jumlah kluster yang dapat di gunakan adalah 3. Tapi dikarnakan elbow method terkadang ambigu , supaya yakin maka perlu kita lakukan silhouette method
+Dari elbow method , ditemukan bahwa jumlah kluster yang dapat di gunakan adalah 3.
 
 
+Tapi dikarenakan elbow method terkadang ambigu , supaya yakin maka perlu kita lakukan silhouette method.
 ```python
 # Standarisasi (Opsional tapi terkadang di sarankan)
 scaler = StandardScaler()
@@ -369,6 +370,7 @@ plt.show()
 
 ## Save model (pickle)
 
+ Menyimpan model K-mean
 ```python
 kmeans = KMeans(n_clusters=4).fit(X)
 
