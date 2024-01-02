@@ -331,3 +331,50 @@ plt.xlabel('Number of Clusters (K)')
 plt.ylabel('Silhouette Score')
 plt.show()
 ```
+![image](https://github.com/FathanNaufalR/FathanNR_211351054/assets/149129682/757da7e9-d237-4c6c-ac0c-3ccb49462e76)
+
+Ditemukan skor silhouette tertinggi adalah kisaran 0.48 pada jumlah kluster 4. Maka kita akan menggunakan Jumlah kluster 4 pada K-Means nya.
+
+
+## Visualisasi hasil algoritma
+
+```python
+df3={'x':df["registered"],'y':df["casual"]}
+plt.xlim([-500, 9000])
+plt.ylim([-500, 4000])
+plt.scatter(df3["x"], df3["y"])
+plt.title('Dataset Registered dan Casual')
+plt.show()
+```
+![image](https://github.com/FathanNaufalR/FathanNR_211351054/assets/149129682/e3de3c53-25ae-4ed8-b70c-d44037c262eb)
+
+
+
+Melakukan K-mean clustering
+```python
+kmeans = KMeans(n_clusters=4).fit(X)
+centroids = kmeans.cluster_centers_
+print(centroids)
+
+fig,ax=plt.subplots()
+plt.scatter(df3['x'], df3['y'], c=kmeans.labels_.astype(float), s=50, alpha=0.5)
+plt.scatter(centroids[:, 0], centroids[:, 1], c='red', s=50)
+plt.xlim([-500, 9000])
+plt.ylim([-500, 4000])
+ax.legend()
+plt.show()
+```
+![image](https://github.com/FathanNaufalR/FathanNR_211351054/assets/149129682/8cc2304d-dd5f-46d5-b62f-5724a3f58c52)
+
+
+## Save model (pickle)
+
+```python
+kmeans = KMeans(n_clusters=4).fit(X)
+
+with open('kmeans_model.pkl', 'wb') as file:
+    pickle.dump(kmeans, file)
+
+with open('kmeans_model.pkl', 'rb') as file:
+    loaded_kmeans = pickle.load(file)
+```
